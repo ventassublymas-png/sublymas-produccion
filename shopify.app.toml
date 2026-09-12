@@ -2,7 +2,7 @@
 
 client_id = "5090133ff66fb8d4385e08ae3f6a2d7f"
 name = "sublymas-produccion"
-application_url = "https://shopify.dev/apps/default-app-home"
+application_url = "https://sublymas-produccion.onrender.com"
 embedded = true
 
 [access_scopes]
