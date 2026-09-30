@@ -15,6 +15,7 @@ export const loader = async ({ request }) => {
   }
 
   console.log("ORDER ID:", orderId);
+  try {
   const response = await admin.graphql(
     
     `#graphql
@@ -124,4 +125,12 @@ for (const item of order?.lineItems?.nodes || []) {
       },
     }),
   );
+} catch (error) {
+  console.error("GRAPHQL ERROR MESSAGE:", error?.message);
+  console.error(
+    "GRAPHQL ERRORS DETAIL:",
+    JSON.stringify(error?.graphQLErrors || error?.errors || error, null, 2),
+  );
+  throw error;
+}
 };
