@@ -23,7 +23,18 @@ export const loader = async ({ request }) => {
             key
             value
           }
-        }
+        
+          lineItems(first: 100) {
+  nodes {
+    name
+    quantity
+    variantTitle
+    customAttributes {
+      key
+      value
+    }
+  }
+}
       }
     `,
     {
@@ -36,21 +47,51 @@ export const loader = async ({ request }) => {
   const result = await response.json();
   const order = result.data?.order;
 
-  const readableAttribute = order?.customAttributes?.find(
-    (item) => item.key === "Listado de producción",
+  const getAttribute = (attributes = [], names = []) => {
+  const match = attributes.find((attr) =>
+    names.some(
+      (name) =>
+        attr.key?.trim().toLowerCase() === name.trim().toLowerCase(),
+    ),
   );
 
-  if (!readableAttribute?.value) {
-    return cors(
-      new Response("Este pedido no contiene un listado de producción.", {
-        status: 404,
-      }),
-    );
-  }
+  return match?.value?.trim() || "";
+};
 
-  const rows = readableAttribute.value
-    .split("\n")
-    .map((line) => line.split("|").map((value) => value.trim()));
+const rows = [];
+
+for (const item of order?.lineItems?.nodes || []) {
+  const attributes = item.customAttributes || [];
+
+  const nombre = getAttribute(attributes, [
+    "NOMBRE PARA EL UNIFORME",
+    "Nombre",
+  ]);
+
+  const numero = getAttribute(attributes, [
+    "Número del jugador",
+    "Numero del jugador",
+    "Número",
+    "Numero",
+  ]);
+
+  const corte = getAttribute(attributes, ["Corte"]);
+  const talla = getAttribute(attributes, ["Talla"]);
+  const manga = getAttribute(attributes, ["Manga"]);
+
+  const cantidad = item.quantity || 1;
+
+  for (let i = 0; i < cantidad; i++) {
+    rows.push([
+      item.name || "",
+      nombre,
+      numero,
+      corte,
+      talla || item.variantTitle || "",
+      manga,
+    ]);
+  }
+}
 
   const csvRows = [
     ["Prenda", "Nombre", "Número", "Corte", "Talla", "Manga"],
