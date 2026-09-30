@@ -48,6 +48,7 @@ export const loader = async ({ request }) => {
 
   const result = await response.json();
   console.log("PRODUCTION LIST RESULT:", JSON.stringify(result, null, 2));
+console.log("GRAPHQL ERRORS:", JSON.stringify(result?.errors?.graphQLErrors, null, 2));
   const order = result.data?.order;
 
   const getAttribute = (attributes = [], names = []) => {
