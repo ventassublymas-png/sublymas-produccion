@@ -73,7 +73,33 @@ for (const item of order?.lineItems?.nodes || []) {
     "NOMBRE PARA EL UNIFORME",
     "Nombre",
   ]);
+const nombreAlumno = getAttribute(attributes, [
+  "NOMBRE COMPLETO DEL ALUMNO",
+  "Nombre completo del alumno",
+]);
 
+const tutor = getAttribute(attributes, [
+  "TUTOR",
+  "Tutor",
+]);
+
+const nivelEscolar = getAttribute(attributes, [
+  "NIVEL ESCOLAR",
+  "Nivel escolar",
+]);
+
+const grado = getAttribute(attributes, [
+  "Grado Escolar",
+  "GRADO ESCOLAR",
+  "Grado",
+]);
+
+const seccion = getAttribute(attributes, [
+  "SECCIÓN",
+  "SECCION",
+  "Sección",
+  "Seccion",
+]);
   const numero = getAttribute(attributes, [
     "Número del jugador",
     "Numero del jugador",
@@ -89,18 +115,23 @@ for (const item of order?.lineItems?.nodes || []) {
 
   for (let i = 0; i < cantidad; i++) {
     rows.push([
-      item.name || "",
-      nombre,
-      numero,
-      corte,
-      talla || item.variantTitle || "",
-      manga,
-    ]);
+  item.name || "",
+  nombreAlumno,
+  nombre,
+  numero,
+  corte,
+  talla || item.variantTitle || "",
+  manga,
+  tutor,
+  nivelEscolar,
+  grado,
+  seccion,
+]);
   }
 }
 
   const csvRows = [
-    ["Prenda", "Nombre", "Número", "Corte", "Talla", "Manga"],
+   ["Prenda", "Nombre del alumno", "Nombre para uniforme", "Número", "Corte", "Talla", "Manga", "Tutor", "Nivel escolar", "Grado", "Sección"],
     ...rows,
   ];
 
