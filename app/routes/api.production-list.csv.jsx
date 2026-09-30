@@ -45,6 +45,7 @@ export const loader = async ({ request }) => {
   );
 
   const result = await response.json();
+  console.log("PRODUCTION LIST RESULT:", JSON.stringify(result, null, 2));
   const order = result.data?.order;
 
   const getAttribute = (attributes = [], names = []) => {
