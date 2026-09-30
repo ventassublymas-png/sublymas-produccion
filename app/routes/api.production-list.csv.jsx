@@ -14,7 +14,9 @@ export const loader = async ({ request }) => {
     );
   }
 
+  console.log("ORDER ID:", orderId);
   const response = await admin.graphql(
+    
     `#graphql
       query OrderProductionList($id: ID!) {
         order(id: $id) {
